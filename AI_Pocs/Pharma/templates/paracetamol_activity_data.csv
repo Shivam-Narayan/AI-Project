@@ -1,0 +1,5 @@
+Compound,IC50 (µM),EC50 (µM),Ki (nM),Cell Viability (%),Comments,smiles
+Paracetamol_Variant_1,1.0,2.0,15,85,Moderate potency,CC(=O)Nc1ccc(C)cc1
+Paracetamol_Variant_2,0.75,1.5,10,90,High potency,CC(=O)Nc1ccc(C)cc1
+Paracetamol_Variant_3,1.25,2.5,20,80,Low potency,CC(=O)Nc1ccc(C)cc1
+Paracetamol_Variant_4,0.5,1.0,5,95,Very high potency,CC(=O)Nc1ccc(C)cc1

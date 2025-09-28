@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Bot</title>
+
+    <style>
+        button {
+            background: linear-gradient(to right, #007bff, #24b3cf);
+            color: #fff;
+            padding: 12px 10px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: linear-gradient(to right, #0056b3, #0088cc);
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to Ascendum bot</h1>
+    <!-- <h2>Use /training for Traning the model</h2> -->
+    <!-- <h2>Use /query to get answers from the model</h2> -->
+
+    <button onclick="location.href='/query'" style="cursor: pointer;">Go to Query Page</button>
+</body>
+</html>

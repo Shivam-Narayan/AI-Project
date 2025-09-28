@@ -1,0 +1,8 @@
+numpy == 1.24.4 
+pandas == 2.0.3
+streamlit == 1.38.0
+folium == 0.170
+streamlit_folium == 0.22.0
+matplotlib == 3.7.5
+geopy == 2.4.1
+ortools == 9.10.4067

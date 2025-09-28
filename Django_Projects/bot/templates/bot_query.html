@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <title>Ascendum Query Bot</title>
+    <style>
+        /* General Body Styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh; /* Ensures the height spans the viewport */
+            display: flex;
+            flex-direction: column;
+            background: url('https://source.unsplash.com/1600x900/?technology,abstract') no-repeat center center fixed;
+            background-size: cover;
+            color: #f8f9fa;
+        }
+
+        /* Header Styling */
+        header {
+            display: flex;
+            align-items: center;
+            padding: 10px 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .logo-container {
+            flex: 1;
+        }
+
+        .logo {
+            max-height: 40px;
+            width: auto;
+            display: inline-block;
+        }
+
+
+        /* Centering Main Content */
+        .main {
+            flex: 1; /* Ensures it takes up the remaining height */
+            display: flex;
+            justify-content: center; /* Centers horizontally */
+            align-items: center; /* Centers vertically */
+            padding: 20px;
+        }
+
+        /* Container Styling */
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            padding: 30px;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.8);
+        }
+        h1 {
+            color: #00d4ff;
+            font-size: 2.5rem;
+            margin-bottom: 25px;
+            text-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Forms and Inputs */
+        .form-inline {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-right: 10px;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            max-width: 400px;
+            padding: 12px;
+            font-size: 1rem;
+            border: 2px solid #007bff;
+            border-radius: 8px;
+            background-color: #222;
+            color: #f8f9fa;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #00d4ff;
+            box-shadow: 0 0 10px rgba(0, 212, 255, 0.8);
+        }
+
+        button {
+            background: linear-gradient(to right, #007bff, #00d4ff);
+            color: #fff;
+            padding: 12px 20px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: linear-gradient(to right, #0056b3, #0088cc);
+            transform: scale(1.1);
+        }
+
+        select {
+            width: 100%;
+            max-width: 300px;
+            padding: 12px;
+            font-size: 1rem;
+            border: 2px solid #007bff;
+            border-radius: 8px;
+            background: linear-gradient(to right, #222, #333);
+            color: #f8f9fa;
+            appearance: none;
+            background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http://www.w3.org/2000/svg%22%20viewBox%3D%220%200%204%205%22%3E%3Cpath%20fill%3D%22%23f8f9fa%22%20d%3D%22M2%205l2-2H0z%22/%3E%3C/svg%3E');
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 12px 12px;
+        }
+
+        select:hover, select:focus {
+            border-color: #00d4ff;
+            box-shadow: 0 0 8px rgba(0, 212, 255, 0.8);
+        }
+
+        /* Result Containers */
+        .result, .converted {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(50, 50, 50, 0.9);
+            border: 1px solid #007bff;
+            border-radius: 8px;
+            text-align: left;
+        }
+
+        .result h2, .converted h2 {
+            color: #00d4ff;
+            margin-top: 0;
+        }
+
+        .result p, .converted p {
+            font-size: 1.1rem;
+            margin: 10px 0;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            font-size: 0.9rem;
+            color: #ccc;
+        }
+
+        footer a {
+            color: #00d4ff;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+        .lan_trans{
+            margin-top: 20px;
+        }
+
+        #language{
+            background-color: black;
+        }
+    </style>
+</head>
+<body>
+    <!-- Logo Section -->
+    <header>
+        <div class="logo-container">
+            <img src="{% static 'Ascendum_Logo.jpg' %}" alt="Logo" class="logo">
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main">
+    <div class="container">
+        <h1>Ascendum Query Bot</h1>
+
+        <!-- Query Form -->
+        <form method="POST" action="/query/" class="form-inline">
+            {% csrf_token %}
+            <label for="query">Enter your query:</label>
+            <input type="text" id="query" name="query" value="{{ query|default:'' }}">
+            <button type="submit">Submit</button>
+        </form>
+
+        <!-- Top Result -->
+        {% if top_result %}
+            <div class="result">
+                <h2>Top Result:</h2>
+                <p>{{ top_result }}</p>
+            </div>
+
+            <!-- Language Conversion Form -->
+            <form method="POST" action="/query/" class="lan_trans">
+                {% csrf_token %}
+                <input type="hidden" name="text_to_convert" value="{{ top_result }}">
+                <label for="language">Choose Language:</label>
+                <select id="language" name="language">
+                    <option value="en">English</option>
+                    <option value="kn">Kannada</option>
+                    <option value="ml">Malayalam</option>
+                    <option value="hi">Hindi</option>
+                    <option value="te">Telugu</option>
+                    <option value="ta">Tamil</option>
+                </select>
+                <button type="submit" name="convert">Convert</button>
+            </form>
+        {% endif %}
+
+        <!-- Converted Text -->
+        {% if converted_text %}
+            <div class="converted">
+                <h2>Converted Text:</h2>
+                <p>{{ converted_text }}</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+    <!-- Footer -->
+    <footer>
+        © 2024 <a href="https://ascendum.com" target="_blank">Ascendum Technologies</a>. All rights reserved.
+    </footer>
+</body>
+</html>
